@@ -1,10 +1,15 @@
 package com.example.blog.service;
 
 import com.example.blog.domain.Blog;
+import com.example.blog.dto.BlogDTO;
 import com.example.blog.repository.BlogRepository;
+import com.example.blog.response.AcknowledgmentResponse;
+import com.example.blog.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @Slf4j
 @Service
@@ -12,20 +17,37 @@ public class BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
-    // Example method to create a blog
-    public void createBlog(String blogDTO) {
-        Blog blog = parseBlogDTO();
-        blogRepository.save(blog);
+    public Response getAllBlogs() {
+        try{
+            return new AcknowledgmentResponse<>("Blogs fetched successfully", blogRepository.findAll());
+        } catch (Exception e) {
+            log.error("Error in getAllBlogs: ", e);
+            throw e;
+        }
     }
 
-    // Example method to retrieve a blog by ID
+    public Response createBlog(BlogDTO blog) {
+        try{
+            blogRepository.save(parseBlogDTO(blog));
+            return new AcknowledgmentResponse<>("Blog created successfully", blog);
+        } catch (Exception e) {
+            log.error("Error in createBlog: ", e);
+            throw e;
+        }
+    }
+
     public String getBlogById(Long id) {
-        // Logic to retrieve a blog by its ID
         return "Blog content for ID: " + id;
     }
 
-    private Blog parseBlogDTO() {
+    private Blog parseBlogDTO(BlogDTO blogDTO) {
         Blog blog = new Blog();
+        blog.setTitle(blogDTO.getTitle());
+        blog.setContent(blogDTO.getContent());
+        blog.setAuthor(blogDTO.getAuthor());
+        blog.setCategory(blogDTO.getCategory());
+        blog.setTags(blogDTO.getTags());
+        blog.setCreatedAt(Instant.now());
         return blog;
     }
 

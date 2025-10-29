@@ -3,6 +3,7 @@ package com.example.blog.domain;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,5 +14,5 @@ public class User {
     private String lastname;
     private String description;
 
-    private UserStats stats;
+//    private UserStats stats;
 }

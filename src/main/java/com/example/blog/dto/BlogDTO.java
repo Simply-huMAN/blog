@@ -1,20 +1,25 @@
 package com.example.blog.dto;
 
+import com.example.blog.domain.BlogCategory;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class BlogDTO {
-    private Long id;
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank(message = "Content is required")
     private String content;
-    private String authorName;
-    private String createdAt;
-    private String updatedAt;
-    private long likesCount;
-    private long dislikesCount;
-    private long bookmarksCount;
-    private long sharesCount;
-    private boolean isLikedByUser;
-    private boolean isDislikedByUser;
-    private boolean isBookmarkedByUser;
+
+    @NotBlank(message = "Author is required")
+    private String author;
+
+    private BlogCategory category;
+
+    private List<String> tags;
+
 }
