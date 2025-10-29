@@ -41,7 +41,7 @@ jobs:
           node-version: '18'
 
       - name: Java setup
-        run: actions/setup-java@v4
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
 
