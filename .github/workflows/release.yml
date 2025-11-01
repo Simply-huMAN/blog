@@ -60,13 +60,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get latest tag
-        id: get_tag
+      - name: Extract version from pom.xml
+        id: maven_version
         run: |
-          # Get latest tag starting with v
-          latest_tag=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
-          echo "Latest tag: $latest_tag"
-          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "new_version=v$version"
+          echo "new_version=v$version" >> $GITHUB_ENV
+                 
+#      - name: Get latest tag
+#        id: get_tag
+#        run: |
+#          # Get latest tag starting with v
+#          latest_tag=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+#          echo "Latest tag: $latest_tag"
+#          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
       - name: Bump patch version
         id: bump_version
