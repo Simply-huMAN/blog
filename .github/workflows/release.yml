@@ -1,0 +1,92 @@
+name: Deploy and Tag
+
+on:
+  push:
+    branches:
+      - 'main'
+      # Trigger the workflow on push to the main branch
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write # Give the workflow write permission for tags
+
+jobs:
+  # Job 1: Your application deployment
+  welcome:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Welcome Step
+        run: |
+          echo "Welcome to Github Actions"
+          echo "Running your pipeline..."
+
+  build:
+    runs-on: ubuntu-latest
+    needs: welcome
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up your environment
+        # Example: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install Npm dependencies
+        run: |
+          npm install
+
+      - name: Install Maven dependencies
+        run: |
+          mvn clean install
+          mvn package
+
+  # Job 2: Create a tag after a successful deployment
+  create-tag:
+    runs-on: ubuntu-latest
+    needs: build # This job depends on the 'deploy' job and will only run after it succeeds
+    if: success() # Further ensures this job only runs if the 'deploy' job was successful
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Required for some tagging actions to work correctly
+          fetch-depth: 0
+
+      - name: Generate the new version tag
+        id: tag_version
+        uses: automerge/tag-release@latest
+        with:
+          # Automatically detects and increments the version number based on semantic versioning from your commit messages
+          # Set the tag prefix (e.g., 'v')
+          tag-prefix: 'v'
+          # Alternatively, you can use a fixed tag name or generate a unique one
+          # tag_name: 'v1.0.0'
+
+      - name: Print the new tag name
+        run: |
+          echo "Created a new tag: ${{ steps.tag_version.outputs.tag }}"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: create-tag
+    if: success()
+
+    steps:
+      - name: Deployment Step
+        run: |
+          echo "Deploying the application..."
+          # Deploy on Render
+          curl -X POST "$RENDER_DEPLOY_HOOK_URL"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
