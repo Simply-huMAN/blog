@@ -75,16 +75,16 @@ jobs:
 #          echo "Latest tag: $latest_tag"
 #          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
-      - name: Bump patch version
-        id: bump_version
-        run: |
-          latest=${{ env.latest_tag }}
-          version=${latest#v} # strip leading v
-          IFS='.' read -r major minor patch <<< "$version"
-          patch=$((patch + 1))
-          new_version="v$major.$minor.$patch"
-          echo "New version: $new_version"
-          echo "new_version=$new_version" >> $GITHUB_ENV
+#      - name: Bump patch version
+#        id: bump_version
+#        run: |
+#          latest=${{ env.latest_tag }}
+#          version=${latest#v} # strip leading v
+#          IFS='.' read -r major minor patch <<< "$version"
+#          patch=$((patch + 1))
+#          new_version="v$major.$minor.$patch"
+#          echo "New version: $new_version"
+#          echo "new_version=$new_version" >> $GITHUB_ENV
 
       - name: Create new tag
         run: |
