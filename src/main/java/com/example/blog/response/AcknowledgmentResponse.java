@@ -9,13 +9,13 @@ public class AcknowledgmentResponse<T> extends Response{
     private T data;
 
     public AcknowledgmentResponse() {
-        setTimestamp(new java.sql.Timestamp(System.currentTimeMillis()));
-        setStatus(200);
+        super();
+        setMetadata(new Metadata(new java.sql.Timestamp(System.currentTimeMillis()), 200, "Success"));
     }
 
     public AcknowledgmentResponse(String message, T data) {
         this();
-        setMessage(message);
+        getMetadata().setMessage(message);
         this.data = data;
     }
 }
