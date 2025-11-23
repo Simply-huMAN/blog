@@ -3,6 +3,8 @@ package com.example.blog.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.domain.Pageable;
+
 
 import java.sql.Timestamp;
 
@@ -17,4 +19,7 @@ public class Metadata {
 
     @Schema(description = "Message of the response")
     private String message;
+
+    @Schema(description = "Pagination details")
+    private Pageable pageable;
 }

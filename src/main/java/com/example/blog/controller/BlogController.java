@@ -7,13 +7,14 @@ import com.example.blog.service.BlogService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -22,19 +23,41 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping
-    public ResponseEntity<Response> getAllBlogs() {
+    @GetMapping("/getAll")
+    public ResponseEntity<Response> getAllBlogs(Pageable pageable) {
         try{
-            return new ResponseEntity<>(blogService.getAllBlogs(), HttpStatus.OK);
+            return new ResponseEntity<>(blogService.getAllBlogs(pageable), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/create")
+    @GetMapping
+    public ResponseEntity<Response> getBlogById(@RequestParam("id") UUID blogId) {
+        try {
+            return new ResponseEntity<>(blogService.getBlogById(blogId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/create-blog")
     public ResponseEntity<Response> createBlog(@Valid @RequestBody BlogDTO requestBody) {
         try{
             return new ResponseEntity<>(blogService.createBlog(requestBody), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Response> searchBlogs(@RequestParam(value = "title", required = false) String title,
+                                                @RequestParam(value = "author", required = false) String author,
+                                                @RequestParam(value = "category", required = false) String category,
+                                                @RequestParam(value = "tags", required = false)List<String> tags,
+                                                Pageable pageable) {
+        try{
+            return new ResponseEntity<>(blogService.searchBlogs(title, author, category, tags, pageable), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
