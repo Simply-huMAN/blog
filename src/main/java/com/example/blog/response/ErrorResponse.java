@@ -10,7 +10,7 @@ public class ErrorResponse extends Response{
 
     public ErrorResponse() {
         setMetadata(new Metadata(new java.sql.Timestamp(System.currentTimeMillis()), 500,
-                "An error occurred while processing the request."));
+                "An error occurred while processing the request.", null));
     }
 
     public ErrorResponse(String errorDetails) {
