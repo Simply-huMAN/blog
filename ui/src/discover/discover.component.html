@@ -16,6 +16,28 @@
   <!-- Blog section -->
   <section class="xs:grid-cols-1 m-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     <!-- Blog -->
+     
+    <div *ngFor="let blog of blogs" class="blog-card cursor-pointer rounded-sm shadow-md inset-shadow-xs">
+      <img src="{{blog.coverImageUrl}}" alt="blog-title" class="h-[200px] w-full rounded-t-sm" />
+      <div class="px-2 py-1">
+        <span class="text-lg font-semibold">{{blog.title}}</span>
+        <p>{{blog.content?.substring(0, 150)}}...</p>
+        <ul class="flex justify-between items-center text-sm text-gray-600 mt-1">
+          <li class="flex items-center">
+            <img src="https://api.dicebear.com/9.x/initials/svg?seed=Aris%20Throne&backgroundType=gradientLinear" alt="avatar" class="w-7 h-7 rounded-4xl" />
+            <span class="mx-1">{{blog.author}}</span>
+          </li>
+          <li class="mx-0.5">{{blog.createdAt?.substring(0, 10)}}</li>
+          <li class="mx-0.5">10 min read</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="xs:grid-cols-1 m-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <!-- Blog -->
+     
     <div class="blog-card cursor-pointer rounded-sm shadow-md inset-shadow-xs">
       <img src="https://media.istockphoto.com/id/1439256518/vector/abstract-colorful-wavy-groovy-psychedelic-background.jpg?s=612x612&w=0&k=20&c=bu4yaI7oqQpzegJ1d5xYYFVGfn3BcDJFDxhUZabbawA=" alt="blog-title" class="h-[200px] w-full rounded-t-sm" />
       <div class="px-2 py-1">
@@ -36,7 +58,7 @@
     <div class="blog-card cursor-pointer rounded-sm shadow-md inset-shadow-xs">
       <img src="https://media.istockphoto.com/id/2123341035/vector/cute-pink-human-brain.jpg?s=612x612&w=0&k=20&c=lXnMr0YJSi2WqwEPwoYrnvcB_nvXaEzCoMESq0SxaDc=" alt="blog-title" class="h-[200px] w-full rounded-t-sm" />
       <div class="px-2 py-1">
-        <span class="text-lg font-semibold"> How to Get Started in Machine Learning: A Practical Roadmap</span>
+        <span class="text-lg font-semibold">How to Get Started in Machine Learning: A Practical Roadmap</span>
         <p>From theory to practice, this roadmap provides aspiring data scientists and developers with the steps and resources needed to begin their ML journey.</p>
         <ul class="flex justify-between items-center text-sm text-gray-600 mt-1">
           <li class="flex items-center">
