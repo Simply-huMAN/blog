@@ -7,7 +7,6 @@ import com.example.blog.response.AcknowledgmentResponse;
 import com.example.blog.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +31,30 @@ public class BlogService {
 
     public Response createBlog(BlogDTO blog) {
         try{
-            blogRepository.save(parseBlogDTO(blog));
-            return new AcknowledgmentResponse<>("Blog created successfully", blog, null);
+            Blog savedBlog = blogRepository.save(parseBlogDTO(blog));
+            return new AcknowledgmentResponse<>("Blog created successfully", savedBlog, null);
         } catch (Exception e) {
             log.error("Error in createBlog: ", e);
+            throw e;
+        }
+    }
+
+    public Response updateBlog(UUID blogId, BlogDTO blog) {
+        try {
+            Optional<Blog> existingBlog = blogRepository.findById(blogId);
+            if(existingBlog.isPresent()){
+                existingBlog.get().setTitle(blog.getTitle());
+                existingBlog.get().setContent(blog.getContent());
+                existingBlog.get().setAuthor(blog.getAuthor());
+                existingBlog.get().setCategory(blog.getCategory());
+                existingBlog.get().setTags(blog.getTags());
+                existingBlog.get().setUpdatedAt(Instant.now());
+                blogRepository.save(existingBlog.get());
+                return new AcknowledgmentResponse<>("Blog updated successfully", blog, null);
+            }
+            return new AcknowledgmentResponse<>("Blog not found", null, null);
+        } catch (Exception e) {
+            log.error("Error in updateBlog: ", e);
             throw e;
         }
     }

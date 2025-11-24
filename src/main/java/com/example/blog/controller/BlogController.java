@@ -50,6 +50,15 @@ public class BlogController {
         }
     }
 
+    @PutMapping("/update-blog")
+    public ResponseEntity<Response> updateBlog(@RequestParam("id") UUID blogId, @Valid @RequestBody BlogDTO requestBody) {
+        try{
+            return new ResponseEntity<>(blogService.updateBlog(blogId, requestBody), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/search")
     public ResponseEntity<Response> searchBlogs(@RequestParam(value = "title", required = false) String title,
                                                 @RequestParam(value = "author", required = false) String author,
@@ -62,6 +71,5 @@ public class BlogController {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }
