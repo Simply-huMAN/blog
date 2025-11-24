@@ -126,6 +126,7 @@ public class BlogService {
         blog.setTitle(blogDTO.getTitle());
         blog.setContent(blogDTO.getContent());
         blog.setAuthor(blogDTO.getAuthor());
+        blog.setCoverImageUrl(blogDTO.getCoverImageUrl());
         blog.setCategory(blogDTO.getCategory());
         blog.setTags(blogDTO.getTags());
         blog.setCreatedAt(Instant.now());

@@ -18,6 +18,8 @@ public class BlogDTO {
     @NotBlank(message = "Author is required")
     private String author;
 
+    private String coverImageUrl;
+
     private BlogCategory category;
 
     private List<String> tags;
