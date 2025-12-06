@@ -37,8 +37,8 @@ public class Blog {
     @Schema(description = "URL of the cover image for the blog")
     private String coverImageUrl;
 
-//    @Schema(description = "Statistics related to the blog")
-//    private BlogStats stats;
+    @Schema(description = "Statistics related to the blog")
+    private BlogStats stats;
 
     // Time fields, all times are stored in UTC
     @Schema(description = "Timestamp of blog creation")
