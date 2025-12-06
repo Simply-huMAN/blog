@@ -7,7 +7,6 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -40,21 +39,6 @@ public class Blog {
 
 //    @Schema(description = "Statistics related to the blog")
 //    private BlogStats stats;
-
-
-    // User count fields
-    @ElementCollection
-    @Schema(description = "Set of users who liked the blog")
-    private Set<String> likedBy;
-
-    @ElementCollection
-    @Schema(description = "Set of users who disliked the blog")
-    private Set<String> dislikedBy;
-
-    @ElementCollection
-    @Schema(description = "Set of users who bookmarked the blog")
-    private Set<String> bookmarkedBy;
-
 
     // Time fields, all times are stored in UTC
     @Schema(description = "Timestamp of blog creation")
