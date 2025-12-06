@@ -6,14 +6,13 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Entity
 public class BlogStats {
     @Id
-    @Schema(description = "Unique identifier for the blog")
-    private UUID blogId;
+    @Schema(description = "Unique identifier for the blog stats")
+    private Long id;
 
     @Schema(description = "Number of likes for the blog")
     private Integer likes;

@@ -38,6 +38,7 @@ public class Blog {
     private String coverImageUrl;
 
     @Schema(description = "Statistics related to the blog")
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private BlogStats stats;
 
     // Time fields, all times are stored in UTC
